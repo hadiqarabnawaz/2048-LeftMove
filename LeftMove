@@ -1,0 +1,88 @@
+using System;
+
+namespace MyApp
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] myList= { 0, 2, 0, 2, 4, 4, 0, 0,8,0,8,8,0,0 };
+            Program P = new Program();
+          //  P.MoveLeft(myList);
+            P.MoveLeftWithAdding(myList);
+        }
+        public void MoveLeft(int[] list)
+        {
+            int[] duplicatelist = new int[list.Length];
+            int index = 0;
+            for (int col = 0; col < list.Length; col++)
+            {
+                if (list[col] != 0)
+                {
+                    duplicatelist[index] = list[col];
+                    index++;
+                }
+            }
+            if (index != (duplicatelist.Length - 1))
+            {
+                for (int num = index; num < duplicatelist.Length; num++)
+                {
+                    duplicatelist[num] = 0;
+                }
+            }
+            DisplayList(list);
+            Console.WriteLine("");
+            DisplayList(duplicatelist);
+
+        }
+        public void DisplayList(int[] list)
+        {
+            foreach (int value in list)
+            {
+                Console.Write(value + " ");
+            }
+        }  
+        public int NextNonZero(int col, int[] list)
+        {
+            for(int index = col+1; col < list.Length-1; index++)
+            {
+                if (list[index] != 0)
+                {
+                    return index;
+                }
+            }
+            return 0;
+        }
+        //0,4,0,0,0,4,4,0,0
+        public void MoveLeftWithAdding(int[] list)
+        {
+            int[] duplicatelist = new int[list.Length];
+            int next_index = 0;
+            for(int col = 0; col < list.Length-2; col++)
+            {
+                if (list[col] != 0)
+                {
+                    if (NextNonZero(col, list) != 0 && (list[NextNonZero(col, list)] == list[col]))
+                    {
+                        list[col] *= 2;
+                        list[NextNonZero(col, list)] = 0;
+                        duplicatelist[next_index] = list[col];
+                        next_index++;
+                    }
+                }
+                
+            }
+            if (next_index != (duplicatelist.Length - 1))
+            {
+                for (int num = next_index; num < duplicatelist.Length; num++)
+                {
+                    duplicatelist[num] = 0;
+                }
+            }
+            DisplayList(list);
+            Console.WriteLine("");
+            DisplayList(duplicatelist);
+        }
+
+    }
+}
